@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveStar AI - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Basic styles for the main layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            width: 95%;
+            max-width: 800px; /* Increased max-width for the main container */
+            text-align: center;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* Needed for absolute positioning */
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .section-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between selection cards/buttons */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            margin-bottom: 30px;
+        }
+
+        .section-card {
+            background-color: #f8fcfc;
+            border: 1px solid #b0e0e6;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px; /* Fixed width for cards */
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card h3 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        /* Styles for individual sections */
+        .app-section {
+            display: none; /* Hidden by default */
+            width: 100%;
+            /* Add padding/margins within the section content itself */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2em;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 20; /* Ensure it's on top */
+        }
+
+        .back-button:hover {
+            color: #000;
+        }
+
+         /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .section-selection {
+                flex-direction: column; /* Stack cards vertically */
+                gap: 15px;
+            }
+            .section-card {
+                width: 100%; /* Full width cards */
+            }
+             .back-button {
+                 top: 15px;
+                 left: 15px;
+                 font-size: 1em;
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="back-button" id="back-to-main" style="display: none;">
+            <i class="fas fa-arrow-left"></i> </div>
+
+        <div id="main-selection-view">
+            <h1>LoveStar Aplicaciones</h1>
+            <div class="section-selection">
+                <div class="section-card" data-section="chat-ia">
+                 <a href="ia.html">   <h3>Chat con IA</h3>
+                    <p>Conversa con LoveStar AI.</p>
+                </a>
+                </div>
+                <div class="section-card" data-section="phrases">
+                <a href="fraces.html">    <h3>Generador de Frases</h3>
+                    <p>Obtén frases para iniciar conversaciones.</p>
+                </a>
+                </div>
+                <div class="section-card" data-section="image-analysis">
+                 <a href="analisis.html">  <h3>Analizador de Conversaciones</h3>
+                    <p>Obtén respuestas de conversaciones desde una imagen.</p>
+                </a>  </div>
+            </div>
+        </div>
+
+        <div id="chat-ia-section" class="app-section">
+            </div>
+
+        <div id="phrases-section" class="app-section">
+            </div>
+
+        <div id="image-analysis-section" class="app-section">
+             </div>
+
+    </div>
+
+    <script src="main.js"></script>
+    <script src="chat_script.js"></script>
+    <script src="phrases_script.js"></script>
+    <script src="image_analysis_script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveStar IA - Tu Asistente Encantador</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Analizador de Conversaciones</h2>
+        <p>Sube una imagen (captura de pantalla de chat) y LoveStar te dará una respuesta o resumen.</p>
+    
+        <input type="file" id="image-upload" accept="image/*">
+        <button id="analyze-image-button">Analizar Imagen</button>
+    
+        <div id="image-preview" style="margin-top: 20px; max-width: 100%; height: auto; display: none;">
+            <img src="#" alt="Image Preview" style="max-width: 100%; height: auto;">
+        </div>
+    
+        <div id="analysis-result" style="margin-top: 20px; padding: 15px; border: 1px solid #b0e0e6; border-radius: 8px; background-color: #e9f7ef; text-align: left; white-space: pre-wrap; word-wrap: break-word; display: none;">
+            </div>
+    
+         <div id="analysis-loading-indicator" style="margin-top: 15px; display: none; color: #007bff;">
+            Analizando imagen...
+        </div>
+    
+    </div>
+  
+
+    <script src="analisis.js"></script>
+</body>
+</html>

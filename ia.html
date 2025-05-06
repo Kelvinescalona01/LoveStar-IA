@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveStar IA - Tu Asistente Encantador</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Suggested CSS for a more aesthetic and professional AI chat look */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+            background-color: #e0f7fa; /* Soft, calming background */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px; /* Add some padding */
+            box-sizing: border-box; /* Include padding in body size */
+        }
+
+        .section {
+            background-color: #ffffff; /* White background for the chat container */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Softer, larger shadow */
+            padding: 30px;
+            width: 95%; /* Slightly wider on smaller screens */
+            max-width: 700px; /* Increased max-width for better chat readability */
+            text-align: center;
+            box-sizing: border-box; /* Include padding in width */
+            display: flex; /* Use flexbox for better layout control */
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* Needed for absolute positioning if any */
+        }
+
+        h2 {
+            color: #007bff; /* Primary blue color */
+            margin-bottom: 25px;
+            font-size: 1.8em; /* Slightly larger heading */
+        }
+
+        /* Removed Language Switcher Styles */
+
+        #chat-container {
+            border: 1px solid #b0e0e6; /* Light blue border */
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 78S0px; /* Fixed height for the chat box */
+            margin-bottom: 20px;
+            background-color: #f8fcfc; /* Very light blue background for chat area */
+            width: 100%; /* Make chat container fill section width */
+        }
+
+        #chat-box {
+            flex-grow: 1;
+            padding: 20px; /* Increased padding */
+            overflow-y: auto; /* Enable scrolling */
+            text-align: left;
+            /* Custom Scrollbar Styles (Optional) */
+            scrollbar-width: thin;
+            scrollbar-color: #007bff #f8fcfc;
+            
+        }
+
+        #chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-box::-webkit-scrollbar-track {
+            background: #f8fcfc;
+            border-radius: 10px;
+        }
+
+        #chat-box::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 10px;
+            border: 2px solid #f8fcfc;
+        }
+
+
+        .message {
+            margin-bottom: 18px; /* Increased space between messages */
+            padding: 12px 18px; /* Increased padding */
+            border-radius: 20px; /* Pill-shaped messages */
+            max-width: 85%; /* Slightly wider message bubbles */
+            word-wrap: break-word;
+            line-height: 1.5; /* Improved readability */
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(10px); /* For fade-in animation */
+            animation: fadeInMessage 0.5s ease forwards; /* Fade-in animation */
+        }
+
+        .message.user {
+            background-color: #007bff; /* User message color */
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px; /* Pointy edge on one side */
+        }
+
+        .message.bot {
+            background-color: #e9ecef; /* Bot message color */
+            color: #333;
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 5px; /* Pointy edge on one side */
+            position: relative; /* Needed for typing indicator */
+        }
+
+         .typing-indicator {
+            display: inline-block;
+            margin-left: 8px;
+            position: absolute; /* Position relative to the message bubble */
+            bottom: 5px;
+            left: 15px; /* Adjust as needed */
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #888;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-5px);
+                background-color: #333;
+            }
+        }
+
+        @keyframes fadeInMessage {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        #chat-form {
+            display: flex; /* Keep flex display */
+            align-items: center; /* Vertically align items */
+            padding: 15px;
+            border-top: 1px solid #b0e0e6; /* Light blue border */
+            background-color: #ffffff; /* White background for input area */
+            width: 100%; /* Make form fill the width */
+            box-sizing: border-box;
+            gap: 10px; /* Add gap for spacing between input and button */
+        }
+
+        #user-input {
+            flex-grow: 1; /* Allow input to grow */
+            padding: 12px 15px; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 25px; /* Rounded input field */
+            /* margin-right: 10px; Removed margin-right, replaced by gap */
+            font-size: 1rem;
+            outline: none; /* Remove default outline */
+            transition: border-color 0.3s ease;
+        }
+
+        #user-input:focus {
+            border-color: #007bff; /* Highlight on focus */
+        }
+
+        #chat-form button {
+            padding: 0 15px; /* Adjust padding for icon */
+            background-color: #2bbcf5; /* Green send button */
+            color: white;
+            border: none;
+            border-radius: 25px; /* Rounded button */
+            cursor: pointer;
+            font-size: 1.2rem; /* Icon size */
+            display: flex; /* Center the icon */
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0; /* Prevent button from shrinking */
+            height: 40px; /* Match input height */
+        }
+
+        #chat-form button:hover {
+            background-color: #2582da; /* Darker green on hover */
+        }
+
+        /* Button Row Below Chat */
+        .button-row {
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center buttons */
+            gap: 10px; /* Space between buttons */
+            margin-top: 15px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .button-row button {
+             padding: 10px 20px;
+             border: none;
+             border-radius: 25px;
+             cursor: pointer;
+             font-size: 1rem;
+             transition: background-color 0.3s ease;
+             flex-grow: 1; /* Allow buttons to grow */
+             min-width: 150px; /* Minimum width */
+        }
+
+        #reiniciar-chat {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+
+        #reiniciar-chat:hover {
+            background-color: #c82333; /* Darker red */
+        }
+
+        #generate-alt-response-btn {
+             background-color: #ffc107; /* Amber/Yellow */
+             color: #212529; /* Dark text */
+             display: none; /* Hidden by default - visibility controlled by JS */
+        }
+
+        #generate-alt-response-btn:hover {
+             background-color: #e0a800; /* Darker amber */
+        }
+
+
+         /* Style for the "Thinking..." message with typing indicator */
+        .message.bot.thinking {
+            background-color: #f0f0f0; /* Different background for thinking state */
+            color: #555;
+            font-style: italic;
+        }
+         .message.bot.thinking .typing-indicator {
+             position: static; /* Or adjust positioning as needed within the bubble */
+             display: inline-block;
+         }
+
+         /* Style for error messages */
+         .message.bot.error {
+             background-color: #f8d7da; /* Light red background */
+             color: #721c24; /* Dark red text */
+             border: 1px solid #f5c6cb;
+         }
+
+         /* --- Charm Control Below Chat --- */
+         #coquetry-control {
+            width: 100%;
+            margin-top: 20px; /* Space above */
+            text-align: left; /* Align label and slider to the left */
+            display: flex; /* Use flexbox for label, slider, and value */
+            align-items: center;
+            gap: 15px; /* Space between elements */
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        #coquetry-control label {
+            flex-shrink: 0; /* Prevent label from shrinking */
+            font-weight: bold;
+            color: #555;
+        }
+
+        #coquetry-control input[type="range"] {
+            flex-grow: 1; /* Allow slider to take available space */
+            -webkit-appearance: none; /* Remove default styles */
+            appearance: none;
+            height: 8px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            border-radius: 5px;
+            min-width: 100px; /* Ensure slider has a minimum width */
+        }
+
+        #coquetry-control input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        #coquetry-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #coquetry-control input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #coquetry-value {
+             flex-shrink: 0; /* Prevent value span from shrinking */
+             font-weight: bold;
+             color: #007bff;
+             min-width: 50px; /* Reserve space for the value */
+             text-align: right; /* Align text to the right */
+        }
+
+
+         /* --- Mobile Aesthetics Adjustments --- */
+         /* Removed flex-direction: column and align-items from #chat-form */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Less padding on very small screens */
+            }
+
+            .section {
+                padding: 20px; /* Reduced padding */
+                border-radius: 10px; /* Less rounded corners */
+            }
+
+            h2 {
+                font-size: 1.5em; /* Smaller heading */
+                margin-bottom: 20px;
+            }
+
+            #chat-container {
+                height: 500px; /* Shorter chat box */
+                margin-bottom: 15px;
+            }
+
+            #chat-box {
+                padding: 15px; /* Reduced padding */
+            }
+
+             .message {
+                 margin-bottom: 12px; /* Less space between messages */
+                 padding: 10px 15px; /* Reduced padding */
+                 max-width: 95%; /* Wider messages */
+             }
+
+            #chat-form {
+                 /* flex-direction: column; REMOVED */
+                 /* align-items: stretch; REMOVED */
+                 padding: 10px;
+             }
+
+             #user-input {
+                 /* margin-right: 0; REMOVED */
+                 /* margin-bottom: 10px; REMOVED */
+                 padding: 10px 12px; /* Reduced padding */
+             }
+
+             #chat-form button {
+                 /* width: 100%; REMOVED */
+                 height: 35px; /* Shorter button */
+                 font-size: 1rem; /* Smaller icon */
+             }
+
+            .button-row {
+                flex-direction: column; /* Stack buttons */
+                gap: 8px; /* Smaller gap */
+            }
+             .button-row button {
+                width: 100%; /* Full width buttons */
+                min-width: unset;
+            }
+
+            #coquetry-control {
+                flex-direction: column; /* Stack elements */
+                align-items: flex-start; /* Align left */
+                gap: 8px; /* Smaller gap */
+                 margin-top: 15px; /* Adjusted margin */
+            }
+
+             #coquetry-control input[type="range"] {
+                 width: 100%; /* Full width slider */
+                 min-width: unset; /* Remove minimum width constraint */
+             }
+
+             #coquetry-value {
+                 align-self: flex-end; /* Align value to the right */
+                 min-width: unset;
+                 text-align: right;
+             }
+        }
+        #language-display {
+                top: 10px;
+                right: 20px; /* Adjusted for reduced padding */
+                font-size: 0.8rem; /* Smaller font */
+        }
+
+    </style>
+</head>
+<body>
+
+    <section id="asistente-ia" class="section">
+        <span id="language-display" data-translate="languageName"></span>
+        <h2>Chatea con LoveStar IA</h2>
+
+        <div id="chat-container">
+            <div id="chat-box">
+                </div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Escribe tu mensaje..." required>
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+
+        <div class="button-row">
+            <button id="reiniciar-chat">Reiniciar Chat</button>
+            <button id="generate-alt-response-btn">Generar otra respuesta</button>
+        </div>
+
+
+        <div id="coquetry-control">
+            <label for="coquetry-level">Nivel de Encanto:</label>
+            <input type="range" id="coquetry-level" min="0" max="10" value="5">
+            <span id="coquetry-value">Nivel: 5</span> </div>
+
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
